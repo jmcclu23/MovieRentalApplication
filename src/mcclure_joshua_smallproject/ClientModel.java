@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,13 +42,13 @@ public class ClientModel implements ClientModelInterface {
         rentalFile = new File(filePath + "rental_info.txt");
         clientFile = new File(filePath + "clients.txt");
     }
+    @Override
     public String addCustomer(String name) throws FileNotFoundException{
         int exists = 0;
         int clientID;
         int active = 0;
         clients = readFile(clientFile);
         clientID = nextValue(clients);
-        
         for(i = 0; i < clients.size(); i++){
             clientArray = clients.get(i).split(delimeter);
             if(clientArray[1].equalsIgnoreCase(name)){
@@ -64,12 +66,36 @@ public class ClientModel implements ClientModelInterface {
         }
     
     }
-    public int deleteCustomer(){
-        return 1;
+    @Override
+    public String deleteCustomer(String customerName){
+         clients = readFile(clientFile);
+         String returnString = "No Customers to Delete";
+          for (i = 0; i < clients.size(); i++) {
+            clientArray = clients.get(i).split(delimeter);
+            if(customerName.equalsIgnoreCase(clientArray[1])){
+                clientArray[2] = "1";
+                String temp = clientArray[0] + ";" + clientArray[1] + ";" + clientArray[2];
+                clients.set(i, temp);
+                returnString = "Customer ID: " + clientArray[0] + " " + clientArray[1]+" deleted";
+                break;
+            }else{
+                returnString = "No customer Deleted";
+            }
+            
+            
+          }
+        try {
+            writeFile(clientFile,clients);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ClientModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return returnString;
     }
+    @Override
     public void searchCustomer(){
         
     }
+    @Override
     public ArrayList<String> showAllCustomers(){
         ArrayList<String> returnArray = new ArrayList();
         clients = readFile(clientFile);
@@ -109,8 +135,8 @@ public class ClientModel implements ClientModelInterface {
         }
        
     }
-     public static ArrayList readFile(File fileName) {
-        ArrayList<String> arrayList = new ArrayList<String>();
+    public static ArrayList readFile(File fileName) {
+        ArrayList<String> arrayList = new ArrayList();
         String[] fileArray;
         String fileString = "";
         try {
@@ -123,17 +149,15 @@ public class ClientModel implements ClientModelInterface {
             }
             if (!(fileString.equalsIgnoreCase(""))) {
                 fileArray = fileString.split(",");
-                arrayList = new ArrayList<String>(Arrays.asList(fileArray));
+                arrayList = new ArrayList(Arrays.asList(fileArray));
             }
         } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             try {
                 if (fis != null) {
                     fis.close();
                 }
             } catch (IOException ex) {
-                ex.printStackTrace();
             }
         }
         return arrayList;

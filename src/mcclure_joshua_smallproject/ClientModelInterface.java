@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public interface ClientModelInterface {
    String addCustomer(String name) throws FileNotFoundException;
-   int deleteCustomer();
+   String deleteCustomer(String customerName);
    void searchCustomer();
    ArrayList<String> showAllCustomers();
         
