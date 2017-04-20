@@ -6,6 +6,7 @@
 package mcclure_joshua_smallproject;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,7 +16,7 @@ public interface ClientModelInterface {
    String addCustomer(String name) throws FileNotFoundException;
    int deleteCustomer();
    void searchCustomer();
-   void showAllCustomers();
+   ArrayList<String> showAllCustomers();
         
 
 }

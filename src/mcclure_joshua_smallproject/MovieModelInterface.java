@@ -17,7 +17,7 @@ public interface MovieModelInterface {
     String createMovie(String movie_title) throws FileNotFoundException;
     String rentMovie(String movieTitleToRent, int custID) throws FileNotFoundException;
     String returnMovie(String movieTitleToReturn) throws FileNotFoundException; 
-    void showAllMovies();
-    void showRentedMovies();
+    ArrayList<String> showAllMovies();
+    ArrayList<String> showRentedMovies();
     ArrayList<String> showMovieHistory(String movie);
 }

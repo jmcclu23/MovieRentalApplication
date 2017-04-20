@@ -38,8 +38,8 @@ public class Controller implements ControllerInterface{
     }
 
     @Override
-    public void showAllCustomers() {
-        clientModel.showAllCustomers();
+    public ArrayList<String> showAllCustomers() {
+        return clientModel.showAllCustomers();
     }
 
     @Override
@@ -59,13 +59,13 @@ public class Controller implements ControllerInterface{
     }
 
     @Override
-    public void showAllMovies() {
-        movieModel.showAllMovies();
+    public ArrayList<String> showAllMovies() {
+         return movieModel.showAllMovies();
     }
 
     @Override
-    public void showRentedMovies() {
-        movieModel.showRentedMovies();
+    public ArrayList<String> showRentedMovies() {
+        return movieModel.showRentedMovies();
     }
 
     @Override
