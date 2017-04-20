@@ -28,8 +28,8 @@ public class Controller implements ControllerInterface{
     }
 
     @Override
-    public int deleteCustomer() {
-        return clientModel.deleteCustomer();
+    public String deleteCustomer(String customerName) {
+        return clientModel.deleteCustomer(customerName);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class Controller implements ControllerInterface{
     }
 
     @Override
-    public String rentMovie(String movieTitleToRent, int custID) throws FileNotFoundException {
-        return movieModel.rentMovie(movieTitleToRent, custID);
+    public String rentMovie(String movieTitleToRent, String CustomerName) throws FileNotFoundException {
+        return movieModel.rentMovie(movieTitleToRent, CustomerName);
         
     }
 

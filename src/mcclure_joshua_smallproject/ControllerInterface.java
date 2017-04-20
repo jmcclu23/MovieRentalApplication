@@ -14,11 +14,11 @@ import java.util.ArrayList;
  */
 public interface ControllerInterface {
     String addCustomer(String name) throws FileNotFoundException;
-    int deleteCustomer();
+    String deleteCustomer(String customerName);
     void searchCustomer();
     ArrayList<String> showAllCustomers();
     String createMovie(String movie_title) throws FileNotFoundException;
-    String rentMovie(String movieTitleToRent, int custID) throws FileNotFoundException;
+    String rentMovie(String movieTitleToRent, String CustomerName) throws FileNotFoundException;
     String returnMovie(String movieTitleToReturn) throws FileNotFoundException; 
     ArrayList<String> showAllMovies();
     ArrayList<String> showRentedMovies();
