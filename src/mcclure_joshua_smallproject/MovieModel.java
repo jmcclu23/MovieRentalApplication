@@ -15,10 +15,10 @@ import java.util.*;
  */
 public class MovieModel implements MovieModelInterface {
 
-    public static final String FILE_PATH = "/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/documents/";
-    public static File movieFile = new File(FILE_PATH + "movies.txt");
-    public static File rentalFile = new File(FILE_PATH+"rental_info.txt");
-    public static File clientFile = new File(FILE_PATH+"clients.txt");
+    public static String filePath = "documents/";
+    public static File movieFile;
+    public static File rentalFile;
+    public static File clientFile;
     public static FileInputStream fis = null;
     public static int movieID, movieRented, i, i_r, movieIDCount, rentalIDCount;
     public static String movieTitle, stringToWrite;
@@ -28,7 +28,19 @@ public class MovieModel implements MovieModelInterface {
     public static String[] movieArray, rentalArray, clientArray;
     public static String delimeter = ";";
     public static String returnString = "";
-
+    
+    public MovieModel(){
+        filePath = "documents/";
+        movieFile = new File(filePath + "movies.txt");
+        rentalFile = new File(filePath + "rental_info.txt");
+        clientFile = new File(filePath + "clients.txt");
+    }
+    public MovieModel(String file){
+        filePath = file;
+        movieFile = new File(filePath + "movies.txt");
+        rentalFile = new File(filePath + "rental_info.txt");
+        clientFile = new File(filePath + "clients.txt");
+    }
     public String createMovie(String movie_title) throws FileNotFoundException {
         int exists = 0;
         movieTitle = movie_title;
@@ -141,7 +153,8 @@ public class MovieModel implements MovieModelInterface {
         return returnString;
     }
 
-    public void showAllMovies() {
+    public ArrayList<String> showAllMovies() {
+        ArrayList<String> returnArray = new ArrayList();
         movies = readFile(movieFile);
         System.out.println("Movie ID  Movie Title  Status");
         for (i = 0; i < movies.size(); i++) {
@@ -154,6 +167,8 @@ public class MovieModel implements MovieModelInterface {
                 movieRented = Integer.valueOf(movieArray[2]);
             }
             if(movieRented == 1){
+                String temp = movieID + ";" + movieTitle + ";Rented";
+                returnArray.add(temp);
                 System.out.println("    " + movieID + "       " + movieTitle + "     Rented");
             }
         }
@@ -167,16 +182,20 @@ public class MovieModel implements MovieModelInterface {
                 movieRented = Integer.valueOf(movieArray[2]);
             }
             if(movieRented == 0){
+                String temp = movieID + ";" + movieTitle + ";Available";
+                returnArray.add(temp);
                 System.out.println("    " + movieID + "       " + movieTitle + "     Available");
             }
         }
+        return returnArray;
     }
 
     /**
      *
      */
-    public void showRentedMovies() {
+    public ArrayList<String> showRentedMovies() {
         movies = readFile(movieFile);
+        ArrayList<String> returnArray = new ArrayList();
         System.out.println("Movie ID  Movie Title  Status");
         for (i = 0; i < movies.size(); i++) {
             movieArray = movies.get(i).split(delimeter);
@@ -188,9 +207,12 @@ public class MovieModel implements MovieModelInterface {
                 movieRented = Integer.valueOf(movieArray[2]);
             }
             if(movieRented == 1){
+                String temp = movieID + ";" + movieTitle + ";Rented";
+                returnArray.add(temp);
                 System.out.println("    " + movieID + "       " + movieTitle + "     Rented");
             }
         }
+        return returnArray;
     }
     public ArrayList<String> showMovieHistory(String movie) {
         movies = readFile(movieFile);

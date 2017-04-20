@@ -18,16 +18,28 @@ import java.util.Arrays;
  * @author Josh
  */
 public class ClientModel implements ClientModelInterface {
-    public static final String FILE_PATH = "/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/documents/";
-    public static File movieFile = new File(FILE_PATH + "movies.txt");
-    public static File rentalFile = new File(FILE_PATH+"rental_info.txt");
-    public static File clientFile = new File(FILE_PATH+"clients.txt");
+    public static String filePath;
+    public static File movieFile;
+    public static File rentalFile;
+    public static File clientFile;
     public static FileInputStream fis = null;
     public static String delimeter = ";";
     public static int i = 0;
     public static ArrayList<String> clients = new ArrayList();
     public static String[] clientArray;
     public static String stringToWrite;
+    public ClientModel(){
+        filePath = "documents/";
+        movieFile = new File(filePath + "movies.txt");
+        rentalFile = new File(filePath + "rental_info.txt");
+        clientFile = new File(filePath + "clients.txt");
+    }
+    public ClientModel(String file){
+        filePath = file;
+        movieFile = new File(filePath + "movies.txt");
+        rentalFile = new File(filePath + "rental_info.txt");
+        clientFile = new File(filePath + "clients.txt");
+    }
     public String addCustomer(String name) throws FileNotFoundException{
         int exists = 0;
         int clientID;
@@ -58,7 +70,8 @@ public class ClientModel implements ClientModelInterface {
     public void searchCustomer(){
         
     }
-    public void showAllCustomers(){
+    public ArrayList<String> showAllCustomers(){
+        ArrayList<String> returnArray = new ArrayList();
         clients = readFile(clientFile);
         String clientID, clientName, clientStatus, statusDecoded;
         System.out.println("Showing All Customers");
@@ -77,9 +90,11 @@ public class ClientModel implements ClientModelInterface {
             }else{
                 statusDecoded = "Deleted";
             }
-            
+                String temp = clientID + ";" + clientName + ";" + statusDecoded;
+                returnArray.add(temp);
                 System.out.println("    " + clientID + "       " + clientName + "     "+statusDecoded);
         }
+        return returnArray;
     }
     public static void writeFile(File fileName, ArrayList<String> arrayList) throws FileNotFoundException {
         try (PrintWriter out = new PrintWriter(fileName)) {

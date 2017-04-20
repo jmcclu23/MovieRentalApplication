@@ -4,13 +4,18 @@
  * and open the template in the editor.
  */
 package mcclure_joshua_smallproject;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 /**
  *
  * @author Josh
@@ -39,30 +44,32 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        showRentedMovies = new javax.swing.JButton();
+        showAllCustomers = new javax.swing.JButton();
         createCustomer = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         createMovie = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        returnMovie = new javax.swing.JButton();
         showAllMovies = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        showMovieHistory = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Show All Rented Movies");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        showRentedMovies.setText("Show Rented Movies");
+        showRentedMovies.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                showRentedMoviesActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Show All Customers");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        showAllCustomers.setText("Show All Customers");
+        showAllCustomers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                showAllCustomersActionPerformed(evt);
             }
         });
 
@@ -86,7 +93,12 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
 
         jButton7.setText("Rent Movie");
 
-        jButton8.setText("Return Movie");
+        returnMovie.setText("Return Movie");
+        returnMovie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnMovieActionPerformed(evt);
+            }
+        });
 
         showAllMovies.setText("Show All Movies");
         showAllMovies.addActionListener(new java.awt.event.ActionListener() {
@@ -95,74 +107,181 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
             }
         });
 
-        jButton10.setText("Show Movie History");
+        showMovieHistory.setText("Show Movie History");
+        showMovieHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showMovieHistoryActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Rental Menu Options:");
+
+        jLabel2.setText("Customer Menu Options");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 29, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(createMovie, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(showAllMovies, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton10))
-                        .addGap(78, 78, 78)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2)))
-                    .addComponent(createCustomer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(showRentedMovies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(showAllMovies, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(returnMovie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(createMovie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(showMovieHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1))
+                .addGap(78, 78, 78)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(createCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(showAllCustomers))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(createCustomer)
-                    .addComponent(createMovie))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton7))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(createMovie, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(createCustomer, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(returnMovie, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton4)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(showAllMovies)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10))
+                        .addComponent(showRentedMovies))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton2)))
-                .addGap(61, 61, 61))
+                        .addGap(16, 16, 16)
+                        .addComponent(jButton5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(showMovieHistory)
+                    .addComponent(showAllCustomers))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        movieModel.showRentedMovies();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void showRentedMoviesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showRentedMoviesActionPerformed
+        showRentedMovies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTable rentedMovies = new JTable();
+                JFrame frame = new JFrame();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                String[] colName = { "Movie ID","Movie Title","Status"};
+                rentedMovies.getTableHeader().setBackground(Color.BLUE);
+                rentedMovies.getTableHeader().setForeground(Color.BLUE);
+                List<String> temp = new ArrayList();
+                temp = controller.showRentedMovies();
+                String[] tempArray;
+                Object[][] object = new Object[100][100];
+                int i = 0;
+                if(temp.size()!= 0){
+                    for(i = 0; i < temp.size(); i++){
+                        tempArray = temp.get(i).split(";");
+                        object[i][0] = tempArray[0];
+                        object[i][1] = tempArray[1];
+                        object[i][2] = tempArray[2];
+                        
+                        //allMovies = new JTable(object, colName);    
+                    } 
+                };
+                rentedMovies = new JTable(object, colName);    
+                JScrollPane scrollPane = new JScrollPane(rentedMovies);
+                frame.add(scrollPane, BorderLayout.CENTER);
+                frame.setSize(300, 300);
+                frame.setVisible(true);
+                frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+        });    
+                           
+    }//GEN-LAST:event_showRentedMoviesActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        clientModel.showAllCustomers();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void showAllCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllCustomersActionPerformed
+        showAllCustomers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTable allCustomers = new JTable();
+                JFrame frame = new JFrame();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                String[] colName = { "Customer ID", "Customer Name", "Status"};
+                allCustomers.getTableHeader().setBackground(Color.BLUE);
+                allCustomers.getTableHeader().setForeground(Color.BLUE);
+                List<String> temp = new ArrayList();
+                temp = controller.showAllCustomers();
+                String[] tempArray;
+                Object[][] object = new Object[100][100];
+                int i = 0;
+                if(temp.size()!= 0){
+                    for(i = 0; i < temp.size(); i++){
+                        tempArray = temp.get(i).split(";");
+                        object[i][0] = tempArray[0];
+                        object[i][1] = tempArray[1];
+                        object[i][2] = tempArray[2];
+                        
+                        //allMovies = new JTable(object, colName);    
+                    } 
+                };
+                allCustomers = new JTable(object, colName);    
+                JScrollPane scrollPane = new JScrollPane(allCustomers);
+                frame.add(scrollPane, BorderLayout.CENTER);
+                frame.setSize(300, 300);
+                frame.setVisible(true);
+                frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+        });    
+    }//GEN-LAST:event_showAllCustomersActionPerformed
 
     private void showAllMoviesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllMoviesActionPerformed
-        movieModel.showAllMovies();
+        showAllMovies.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JTable allMovies = new JTable();
+                JFrame frame = new JFrame();
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                String[] colName = { "Movie ID","Movie Title","Status"};
+                allMovies.getTableHeader().setBackground(Color.BLUE);
+                allMovies.getTableHeader().setForeground(Color.BLUE);
+                List<String> temp = new ArrayList();
+                temp = controller.showAllMovies();
+                String[] tempArray;
+                Object[][] object = new Object[100][100];
+                int i = 0;
+                if(temp.size()!= 0){
+                    for(i = 0; i < temp.size(); i++){
+                        tempArray = temp.get(i).split(";");
+                        object[i][0] = tempArray[0];
+                        object[i][1] = tempArray[1];
+                        object[i][2] = tempArray[2];
+                        
+                        //allMovies = new JTable(object, colName);    
+                    } 
+                };
+                allMovies = new JTable(object, colName);    
+                JScrollPane scrollPane = new JScrollPane(allMovies);
+                frame.add(scrollPane, BorderLayout.CENTER);
+                frame.setSize(300, 300);
+                frame.setVisible(true);
+                frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+        });    
     }//GEN-LAST:event_showAllMoviesActionPerformed
 
     private void createMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createMovieActionPerformed
@@ -207,6 +326,68 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_createCustomerActionPerformed
 
+    private void returnMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnMovieActionPerformed
+        JFrame frame = new JFrame();
+        returnMovie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String inputValue = JOptionPane.showInputDialog("Please Input Movie To Return");
+                System.out.println(inputValue);
+                if(inputValue != null){
+                    try {
+                        Object[] options = { "OK"};
+                        String returnValue = controller.returnMovie(inputValue);
+                        int n = JOptionPane.showOptionDialog(frame,
+                                returnValue,"Movie Returned",JOptionPane.PLAIN_MESSAGE,
+                                JOptionPane.QUESTION_MESSAGE, null,options,options[0]);
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(MovieRentalStoreView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+             }
+        });
+    }//GEN-LAST:event_returnMovieActionPerformed
+
+    private void showMovieHistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showMovieHistoryActionPerformed
+        JFrame frame = new JFrame();
+        showMovieHistory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String inputValue = JOptionPane.showInputDialog("Please Input Movie Title");
+                System.out.println(inputValue);
+                if(inputValue != null){
+                    Object[] options = { "OK"};
+                    JTable movieHistory = new JTable();
+                    JFrame frame = new JFrame();
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    String[] colName = { "ID" , "Date Out", "Date In", "Customer ID",
+                   "Customer Name"};
+                    movieHistory.getTableHeader().setBackground(Color.BLUE);
+                    movieHistory.getTableHeader().setForeground(Color.BLUE);
+                    List<String> temp = new ArrayList();
+                    temp = controller.showMovieHistory(inputValue);
+                    String[] tempArray;
+                    Object[][] object = new Object[100][100];
+                    int i = 0;
+                    if(temp.size()!= 0){
+                        for(i = 0; i < temp.size(); i++){
+                            tempArray = temp.get(i).split(";");
+                            object[i][0] = tempArray[0];
+                            object[i][1] = tempArray[2];
+                            object[i][2] = tempArray[3];
+                            object[i][3] = tempArray[1];
+                            object[i][4] = tempArray[4];
+                        }   
+                    };
+                    movieHistory = new JTable(object, colName);
+                    JScrollPane scrollPane = new JScrollPane(movieHistory);
+                    frame.add(scrollPane, BorderLayout.CENTER);
+                    frame.setSize(500, 300);
+                    frame.setVisible(true);
+                    frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                }
+             }
+        });
+    }//GEN-LAST:event_showMovieHistoryActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -246,14 +427,16 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createCustomer;
     private javax.swing.JButton createMovie;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton returnMovie;
+    private javax.swing.JButton showAllCustomers;
     private javax.swing.JButton showAllMovies;
+    private javax.swing.JButton showMovieHistory;
+    private javax.swing.JButton showRentedMovies;
     // End of variables declaration//GEN-END:variables
 
     void run() {

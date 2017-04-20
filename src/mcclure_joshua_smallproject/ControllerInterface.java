@@ -16,11 +16,11 @@ public interface ControllerInterface {
     String addCustomer(String name) throws FileNotFoundException;
     int deleteCustomer();
     void searchCustomer();
-    void showAllCustomers();
+    ArrayList<String> showAllCustomers();
     String createMovie(String movie_title) throws FileNotFoundException;
     String rentMovie(String movieTitleToRent, int custID) throws FileNotFoundException;
     String returnMovie(String movieTitleToReturn) throws FileNotFoundException; 
-    void showAllMovies();
-    void showRentedMovies();
+    ArrayList<String> showAllMovies();
+    ArrayList<String> showRentedMovies();
     ArrayList<String> showMovieHistory(String movie);
 }
