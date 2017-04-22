@@ -15,6 +15,7 @@ public class McClure_Joshua_SmallProject {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException {
         //System.out.println(Movie.createMovie("Jurrasic World II"));
