@@ -3,12 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/Client.java</file>
+            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/Controller.java</file>
+            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/ControllerInterface.java</file>
+            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/ClientModel.java</file>
+            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/MovieModel.java</file>
             <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/McClure_Joshua_SmallProject.java</file>
             <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/MovieRentalStoreView.java</file>
-            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/RentalView.java</file>
-            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/Movie.java</file>
-            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/RentalController.java</file>
+            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/MovieModelInterface.java</file>
+            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/Observer.java</file>
+            <file>file:/Users/Josh/NetBeansProjects/McClure_Joshua_SmallProject/src/mcclure_joshua_smallproject/ClientModelInterface.java</file>
         </group>
     </open-files>
 </project-private>
