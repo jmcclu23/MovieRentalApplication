@@ -33,8 +33,8 @@ public class Controller implements ControllerInterface{
     }
 
     @Override
-    public void searchCustomer() {
-        clientModel.searchCustomer();
+    public String searchCustomer(String name) {
+        return clientModel.searchCustomer(name);
     }
 
     @Override

@@ -20,4 +20,6 @@ public interface MovieModelInterface {
     ArrayList<String> showAllMovies();
     ArrayList<String> showRentedMovies();
     ArrayList<String> showMovieHistory(String movie);
+    void registerObserver(Observer o);
+    void removeObserver(Observer o);
 }

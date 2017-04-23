@@ -28,6 +28,7 @@ public class MovieModel implements MovieModelInterface {
     public static String[] movieArray, rentalArray, clientArray;
     public static String delimeter = ";";
     public static String returnString = "";
+    ArrayList Observers = new ArrayList();
     
     public MovieModel(){
         filePath = "documents/";
@@ -58,6 +59,7 @@ public class MovieModel implements MovieModelInterface {
         if(exists == 0){
             movies.add((movieIDCount) + ";" + movieTitle + ";" + movieRented);
             writeFile(movieFile, movies);
+            notifyObservers();
             return ("Movie " + movieTitle + " added with ID " + movieIDCount);
         }else{
             return ("A copy of " + movieTitle + " already exists in our library");
@@ -74,6 +76,7 @@ public class MovieModel implements MovieModelInterface {
         String rentalInfo;
         int rentedMovieCount = 0;
         int custID = getCustomerNumber(CustomerName);
+        String status = getCustomerStatus(CustomerName);
         for (i = 0; i < rentals.size(); i++){
             rentalArray = rentals.get(i).split(delimeter);
             
@@ -81,7 +84,7 @@ public class MovieModel implements MovieModelInterface {
                 rentedMovieCount++;
             }
         }
-        if(rentedMovieCount < 3){
+        if(rentedMovieCount < 3 && status.equalsIgnoreCase("0")){
             for (i = 0; i < movies.size(); i++) {
                 movieArray = movies.get(i).split(delimeter);
                 movieID = Integer.parseInt(movieArray[0]);
@@ -110,7 +113,10 @@ public class MovieModel implements MovieModelInterface {
         }else{
             returnString = "You have more than 3 movies checked out";
         }
-        
+        if(!status.equalsIgnoreCase("0")){
+            returnString = "Your account is not active";
+        }
+        notifyObservers();
         return returnString;
     }
 
@@ -155,6 +161,7 @@ public class MovieModel implements MovieModelInterface {
                 }
             }
         }
+        notifyObservers();
         return returnString;
     }
 
@@ -355,4 +362,34 @@ public class MovieModel implements MovieModelInterface {
         }
         return returnCustID;
     }
+    public static String getCustomerStatus(String customerName){
+        String returnCustStatus = "";
+        clients = readFile(clientFile);
+        for(i = 0; i < clients.size(); i++){
+            clientArray = clients.get(i).split(delimeter);
+            if(customerName.equalsIgnoreCase(clientArray[1])){
+                returnCustStatus = clientArray[2];
+                break;
+            } else {
+            }
+        }
+        return returnCustStatus;
+    }
+    public void registerObserver(Observer o) {
+		Observers.add(o);
+	}
+  
+	public void notifyObservers() {
+		for(int i = 0; i < Observers.size(); i++) {
+			Observer observer = (Observer)Observers.get(i);
+			observer.updateAllMovies();
+                        observer.updateRentedMovies();
+		}
+        }
+	public void removeObserver(Observer o) {
+		int i = Observers.indexOf(o);
+		if (i >= 0) {
+			Observers.remove(i);
+		}
+	}
 }
