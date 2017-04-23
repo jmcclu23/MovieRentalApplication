@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author Josh
  */
-public class ClientModel implements ClientModelInterface {
+public class ClientModel implements ClientModelInterface {//implements ClientModelInterface
     public static String filePath;
     public static File movieFile;
     public static File rentalFile;
@@ -28,8 +28,12 @@ public class ClientModel implements ClientModelInterface {
     public static String delimeter = ";";
     public static int i = 0;
     public static ArrayList<String> clients = new ArrayList();
+    public static ArrayList<String> rentals = new ArrayList();
+    public static ArrayList<String> movies = new ArrayList();
     public static String[] clientArray;
     public static String stringToWrite;
+    ArrayList Observers = new ArrayList();
+    
     public ClientModel(){
         filePath = "documents/";
         movieFile = new File(filePath + "movies.txt");
@@ -59,7 +63,7 @@ public class ClientModel implements ClientModelInterface {
         if(exists == 0){
             clients.add(clientID + ";" + name + ";" + active);
             writeFile(clientFile, clients);
-            
+            notifyObservers();
             return ("Customer " + name + " added with ID " + clientID);
         }else{
             return ("Customer " + name + " already exists");
@@ -89,19 +93,40 @@ public class ClientModel implements ClientModelInterface {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ClientModel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        notifyObservers();
         return returnString;
     }
     @Override
-    public void searchCustomer(){
-        
+    public String searchCustomer(String name){
+        ArrayList<String> returnArray = new ArrayList();
+        clients = readFile(clientFile);
+        rentals = readFile(rentalFile);
+        movies  = readFile(movieFile);
+        clientArray = name.split(" ");
+        String returnValue = "No Customer Found";
+        String fullName="";
+        if(clientArray.length > 1){
+            fullName = clientArray[1] + " " + clientArray[0];
+        }
+        if(!fullName.isEmpty()){
+            for (i = 0; i < clients.size(); i++) {
+                clientArray = clients.get(i).split(delimeter);
+                if(fullName.equalsIgnoreCase(clientArray[1])){
+                    returnValue = clientArray[0] + ";" + clientArray[1] + ";" + clientArray[2];
+                    System.out.println(returnValue);
+                    break;
+                }else{
+                    returnValue = "No Customer Found";
+                }
+            }
+        }    
+        return returnValue;  
     }
     @Override
     public ArrayList<String> showAllCustomers(){
         ArrayList<String> returnArray = new ArrayList();
         clients = readFile(clientFile);
         String clientID, clientName, clientStatus, statusDecoded;
-        System.out.println("Showing All Customers");
-        System.out.println("Customer ID      Customer Name     Status");
         for (i = 0; i < clients.size(); i++) {
             clientArray = clients.get(i).split(delimeter);
             clientID = clientArray[0];
@@ -118,7 +143,6 @@ public class ClientModel implements ClientModelInterface {
             }
                 String temp = clientID + ";" + clientName + ";" + statusDecoded;
                 returnArray.add(temp);
-                System.out.println("    " + clientID + "       " + clientName + "     "+statusDecoded);
         }
         return returnArray;
     }
@@ -174,4 +198,20 @@ public class ClientModel implements ClientModelInterface {
        }
        return count + 1;
     }
+    public void registerObserver(Observer o) {
+		Observers.add(o);
+	}
+  
+	public void notifyObservers() {
+		for(int i = 0; i < Observers.size(); i++) {
+			Observer observer = (Observer)Observers.get(i);
+			observer.updateClients();
+		}
+        }
+	public void removeObserver(Observer o) {
+		int i = Observers.indexOf(o);
+		if (i >= 0) {
+			Observers.remove(i);
+		}
+	}
 }

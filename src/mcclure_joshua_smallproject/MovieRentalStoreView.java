@@ -6,6 +6,7 @@
 package mcclure_joshua_smallproject;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,13 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
  *
  * @author Josh
  */
-public class MovieRentalStoreView extends javax.swing.JFrame {
+public class MovieRentalStoreView extends javax.swing.JFrame implements Observer {
         static MovieModelInterface  movieModel;
         static ControllerInterface  controller;
         static ClientModelInterface clientModel;
+        public static List<String> allMoviesArray = new ArrayList();
+        public static List<String> rentedMoviesArray = new ArrayList();
+        public static List<String> allClientsArray = new ArrayList();
     /**
      * Creates new form RentalView
      * @param controller
@@ -32,10 +36,20 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
 		this.controller  = controller;
 		this.movieModel  = movieModel;
                 this.clientModel = clientModel;
+                movieModel.registerObserver(this);
+                clientModel.registerObserver(this);
     
         initComponents();
     }
-
+    public void updateAllMovies(){
+        allMoviesArray = movieModel.showAllMovies();
+    }
+    public void updateClients(){
+        allClientsArray = clientModel.showAllCustomers();
+    }
+    public void updateRentedMovies(){
+        rentedMoviesArray = movieModel.showRentedMovies();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,7 +63,7 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
         showAllCustomers = new javax.swing.JButton();
         createCustomer = new javax.swing.JButton();
         deleteCustomer = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        searchForCustomer = new javax.swing.JButton();
         createMovie = new javax.swing.JButton();
         rentMovie = new javax.swing.JButton();
         returnMovie = new javax.swing.JButton();
@@ -88,7 +102,12 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Search For Customer");
+        searchForCustomer.setText("Search For Customer");
+        searchForCustomer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchForCustomerActionPerformed(evt);
+            }
+        });
 
         createMovie.setText("Create Movie");
         createMovie.addActionListener(new java.awt.event.ActionListener() {
@@ -145,12 +164,12 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
                         .addComponent(showMovieHistory, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1))
                 .addGap(78, 78, 78)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2)
-                    .addComponent(deleteCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(createCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(showAllCustomers))
+                    .addComponent(deleteCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchForCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(createCustomer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showAllCustomers, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -181,7 +200,7 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
                         .addComponent(showRentedMovies))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(jButton5)))
+                        .addComponent(searchForCustomer)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(showMovieHistory)
@@ -199,15 +218,13 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
         rentedMovies.getTableHeader().setBackground(Color.BLUE);
         rentedMovies.getTableHeader().setForeground(Color.BLUE);
         @SuppressWarnings("UnusedAssignment")
-        List<String> temp = new ArrayList();
-        temp = controller.showRentedMovies();
         String[] tempArray;
         Object[][] object = new Object[100][100];
         @SuppressWarnings("UnusedAssignment")
         int i = 0;
-        if(!temp.isEmpty()){
-            for(i = 0; i < temp.size(); i++){
-                tempArray = temp.get(i).split(";");
+        if(!rentedMoviesArray.isEmpty()){
+            for(i = 0; i < rentedMoviesArray.size(); i++){
+                tempArray = rentedMoviesArray.get(i).split(";");
                 object[i][0] = tempArray[0];
                 object[i][1] = tempArray[1];
                 object[i][2] = tempArray[2];     
@@ -228,15 +245,13 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
         allCustomers.getTableHeader().setBackground(Color.BLUE);
         allCustomers.getTableHeader().setForeground(Color.BLUE);
         @SuppressWarnings("UnusedAssignment")
-        List<String> temp = new ArrayList();
-        temp = controller.showAllCustomers();
         String[] tempArray;
         Object[][] object = new Object[100][100];
         @SuppressWarnings("UnusedAssignment")
         int i = 0;
-        if(!temp.isEmpty()){
-            for(i = 0; i < temp.size(); i++){
-                tempArray = temp.get(i).split(";");
+        if(!allClientsArray.isEmpty()){
+            for(i = 0; i < allClientsArray.size(); i++){
+                tempArray = allClientsArray.get(i).split(";");
                 object[i][0] = tempArray[0];
                 object[i][1] = tempArray[1];
                 object[i][2] = tempArray[2];
@@ -257,15 +272,13 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
         allMovies.getTableHeader().setBackground(Color.BLUE);
         allMovies.getTableHeader().setForeground(Color.BLUE);
         @SuppressWarnings("UnusedAssignment")
-        List<String> temp = new ArrayList();
-        temp = controller.showAllMovies();
         String[] tempArray;
         Object[][] object = new Object[100][100];
         @SuppressWarnings("UnusedAssignment")
         int i = 0;
-        if(!temp.isEmpty()){
-            for(i = 0; i < temp.size(); i++){
-                tempArray = temp.get(i).split(";");
+        if(!allMoviesArray.isEmpty()){
+            for(i = 0; i < allMoviesArray.size(); i++){
+                tempArray = allMoviesArray.get(i).split(";");
                 object[i][0] = tempArray[0];
                 object[i][1] = tempArray[1];
                 object[i][2] = tempArray[2];
@@ -392,7 +405,7 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
                     String returnValue = controller.rentMovie(movieTitle.getText(), customerName.getText());
                     Object[] options = { "OK"};
                     int n = JOptionPane.showOptionDialog(frame,
-                            returnValue,"Movie Returned",JOptionPane.PLAIN_MESSAGE,
+                            returnValue,"Movie Rented",JOptionPane.PLAIN_MESSAGE,
                             JOptionPane.QUESTION_MESSAGE, null,options,options[0]);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(MovieRentalStoreView.class.getName()).log(Level.SEVERE, null, ex);
@@ -414,6 +427,33 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_deleteCustomerActionPerformed
+
+    private void searchForCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchForCustomerActionPerformed
+        JFrame frame = new JFrame();
+        String inputValue = JOptionPane.showInputDialog("Please Input A Customer: Last Name First Name");
+        String[] searchArray;
+        String printValue;
+        if(inputValue != null){
+            if(!(inputValue.equalsIgnoreCase(""))){
+                Object[] options = { "OK"};
+                printValue = controller.searchCustomer(inputValue);
+                searchArray = printValue.split(";");
+                System.out.println(searchArray.length);
+                if(searchArray.length > 1){
+                    if(searchArray[2].equalsIgnoreCase("0")){
+                        printValue = ("ID: " + searchArray[0] + "\nName : "
+                                            + searchArray[1] + "\nStatus: Active");
+                    }else if(searchArray[2].equalsIgnoreCase("1")){
+                        printValue = ("ID: " + searchArray[0] + "\nName : "
+                                            + searchArray[1] + "\nStatus: Deleted");    
+                    }
+                }
+                int n = JOptionPane.showOptionDialog(frame,
+                        printValue,"Customer Search",JOptionPane.PLAIN_MESSAGE,
+                        JOptionPane.QUESTION_MESSAGE, null,options,options[0]);
+            }
+        }
+    }//GEN-LAST:event_searchForCustomerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -448,20 +488,47 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @SuppressWarnings("override")
             public void run() {
-                new MovieRentalStoreView(controller, movieModel, clientModel).setVisible(true);
+                JFileChooser chooser = new JFileChooser();
+                chooser.setCurrentDirectory(new java.io.File("."));
+                chooser.setDialogTitle("Choose Directory");
+                chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                chooser.setAcceptAllFileFilterUsed(true);
+                if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                    File f = chooser.getSelectedFile();
+                    // if the user accidently click a file, then select the parent directory.
+                    if (!f.isDirectory()) {
+                        f = f.getParentFile();
+                    }
+                    String fileName = f + "/";
+                    System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+                    System.out.println("getSelectedFile() : " + fileName);
+                    f = new File(fileName);
+                    MovieModelInterface   movieModel = new MovieModel(fileName);
+                    ClientModelInterface clientModel = new ClientModel(fileName);
+                    ControllerInterface controller = new Controller(movieModel,clientModel);
+                    allMoviesArray = controller.showAllMovies();
+                    rentedMoviesArray = controller.showRentedMovies();
+                    allClientsArray = controller.showAllCustomers();
+                } else  {
+                    MovieModelInterface   movieModel = new MovieModel();
+                    ClientModelInterface clientModel = new ClientModel();
+                    ControllerInterface controller = new Controller(movieModel,clientModel);
+                    allMoviesArray = controller.showAllMovies();
+                    rentedMoviesArray = controller.showRentedMovies();
+                    allClientsArray = controller.showAllCustomers();
+                }  
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createCustomer;
     private javax.swing.JButton createMovie;
     private javax.swing.JButton deleteCustomer;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton rentMovie;
     private javax.swing.JButton returnMovie;
+    private javax.swing.JButton searchForCustomer;
     private javax.swing.JButton showAllCustomers;
     private javax.swing.JButton showAllMovies;
     private javax.swing.JButton showMovieHistory;
@@ -471,4 +538,5 @@ public class MovieRentalStoreView extends javax.swing.JFrame {
     void run() {
         new MovieRentalStoreView(controller, movieModel, clientModel).setVisible(true);    
     }
+    
 }

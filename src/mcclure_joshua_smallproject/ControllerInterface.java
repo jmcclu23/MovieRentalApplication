@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public interface ControllerInterface {
     String addCustomer(String name) throws FileNotFoundException;
     String deleteCustomer(String customerName);
-    void searchCustomer();
+    String searchCustomer(String name);
     ArrayList<String> showAllCustomers();
     String createMovie(String movie_title) throws FileNotFoundException;
     String rentMovie(String movieTitleToRent, String CustomerName) throws FileNotFoundException;
